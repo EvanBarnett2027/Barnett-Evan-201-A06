@@ -1,7 +1,7 @@
 ---
 title: "Assignment 6"
 subtitle: "STAT 201"
-author: "YOUR NAME"
+author: "Evan Barnett"
 
 format:
   html:
@@ -102,7 +102,9 @@ Extract the value `8162` (LeBron James points) in 2 different ways:
 - using names
 
 ```{r}
+player_info$LJ$points
 
+player_info[[2]][[4]]
 ```
 
 
@@ -113,7 +115,11 @@ Add a new named element to the end of each player's list called `height`. The he
 Print the `player_info` list to prove you were successful.
 
 ```{r}
-
+heights <- c(78,81,78,86,85)
+for (i in 1:length(player_info)) {
+  player_info[[i]]["height"] = heights[i]
+}
+player_info
 ```
 
 
@@ -132,7 +138,11 @@ Hint: initialize an empty list
 Note: this must still run correctly even if the values were to change or if another player were added to the list or if the player order changed.
 
 ```{r}
-
+points_per_game <- list()
+for (i in names(player_info)) {
+  points_per_game[[i]] <- player_info[[i]][["points"]] / player_info[[i]][["games_played"]]
+}
+points_per_game
 ```
 
 
@@ -143,7 +153,8 @@ Use the list created in Part c and an appropriate apply function to round each v
 Store the output as a vector and print the results.
 
 ```{r}
-
+points_per_game <- sapply(points_per_game, function(x) round(x,digits = 2))
+points_per_game
 ```
 
 
