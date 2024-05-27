@@ -193,6 +193,8 @@ download.file(url = temp_url, destfile = temp_file)
 
 max_temps <- read_tsv("state_max_temps.tsv") |> 
   janitor::clean_names()
+
+max_temps <- as.data.frame(max_temps)
 ```
 
 ### Part a (2 points)
@@ -200,7 +202,11 @@ max_temps <- read_tsv("state_max_temps.tsv") |>
 Calculate the average temperature for each month across the whole data frame (using the data for all three states together).
 
 ```{r}
-
+avg_temp <- c()
+for (i in 3:ncol(max_temps)) {
+  avg_temp[i-2] <- mean(max_temps[,i])
+}
+avg_temp
 ```
 
 
@@ -215,7 +221,9 @@ Create three new data frames by slicing the data by state.
 No need to print any output here.
 
 ```{r}
-
+CO <- max_temps[max_temps$state == "CO",]
+OH <- max_temps[max_temps$state == "OH",]
+VA <- max_temps[max_temps$state == "VA",]
 ```
 
 
@@ -236,7 +244,19 @@ Example (this is NOT the answer just an example of what goes in the {}):
 Note: This code should still run successfully even if the numbers were to change.
 
 ```{r}
+median_annual_by_year <- c()
+for (i in 1:nrow(CO)) {
+  median_annual_by_year[i] <- median(unlist(CO[i,3:14]))
+}
 
+CO <- cbind(CO,median_annual_by_year)
+
+
+most_year <- CO$year[which.max(CO$median_annual_by_year)]
+
+least_year <- CO$year[which.min(CO$median_annual_by_year)]
+
+print(paste0("The maximum median annual temperature of ", max(median_annual_by_year), " occured in ", most_year, " and the minimum median annual temperature of ", min(median_annual_by_year), " occured in ", least_year, "."))
 ```
 
 
